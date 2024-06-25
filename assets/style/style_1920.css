@@ -1,0 +1,8 @@
+header {
+    width: 100vw;
+    display: flex;
+
+}
+.header-container {
+    display: flex;
+}

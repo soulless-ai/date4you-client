@@ -1,0 +1,86 @@
+header {
+    position: fixed;
+    width: 100vw;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+.header-container {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+.header-container ul {
+    display: flex;
+    gap: 12px
+}
+.header-container ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+main {
+    height: max-content;
+}
+#main {
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#backButton {
+    position: absolute;
+    right: 0px;
+    margin: 8px 20px;
+    background-color: rgb(161, 63, 63);
+    border: none;
+    border-radius: 100%;
+    font-size: 24px;
+}
+#signInForm, #signUpForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    height: 100%;
+}
+#signInForm input ,
+#signUpForm input {
+    padding: 16px 24px;
+    border-style: solid;
+    border-color: #FFD700;
+    border-radius: 24px;
+    box-shadow: none;
+}
+#signInForm button ,
+#signUpForm button {
+    padding: 16px 24px;
+    background-color: #FFD700;
+    color: black;
+    border: none;
+    border-radius: 24px;
+}
+
+footer {
+    width: 100vw;
+    position: absolute;
+    bottom: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+footer button {
+    padding: 8px 20px;
+    background-color: #FFD700;
+    color: black;
+    border: none;
+    border-radius: 24px;
+}

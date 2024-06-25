@@ -1,0 +1,152 @@
+header {
+    position: fixed;
+    width: 100vw;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+.header-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.header-container ul {
+    display: flex;
+    gap: 12px
+}
+.header-container ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+main {
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+}
+section {
+    height: 100%;
+}
+
+#main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#backButton, #exitButton {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    background-color: rgba(36, 74, 127, .08);
+    cursor: pointer;
+    transition: background-color .25s;
+    padding: 16px;
+}
+#backButton:active,
+#exitButton:active {
+    background-color: rgba(36, 74, 127, .1);
+}
+#backButton {
+    left: 20px;
+    right: auto;
+}
+#backButton img {
+    width: 22px;
+    height: 22px;
+}
+
+#signInForm, #signUpForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    height: 100%;
+}
+#signInForm input ,
+#signUpForm input {
+    width: 100%;
+    height: 56px;
+    padding: 16px 24px;
+    border-style: solid;
+    border-color: #FFD700;
+    border-radius: 24px;
+    box-shadow: none;
+}
+#signInForm button ,
+#signUpForm button {
+    padding: 16px 24px;
+    background-color: #FFD700;
+    color: black;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: background-color .25s;
+}
+#signInForm button:active ,
+#signUpForm button:active {
+    background-color: #ffbb00;
+}
+#signUpForm .code-sender-container {
+    display: flex;
+    width: 100%;
+    height: 56px;
+    gap: 4px;
+}
+#signUpForm .code-sender-container input {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+#signUpForm .code-sender-container #sendCodeButton {
+    right: 0px;
+    height: 100%;
+    padding: 16px;
+    border-radius: 24px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+#signUpForm .code-sender-container #sendCodeButton img {
+    height: 100%;
+}
+
+footer {
+    width: 100vw;
+    position: absolute;
+    bottom: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+footer button {
+    padding: 16px 24px;
+    background-color: #FFD700;
+    color: black;
+    border: none;
+    border-radius: 24px;
+}
+
+#errorMessage {
+    width: 100%;
+    color:#A13F3F;
+    text-align: start;
+}
+.errorMessageButton {
+    background-color: #A13F3F !important;
+}
+.errorMessageInput {
+    border-color: #A13F3F !important;
+}

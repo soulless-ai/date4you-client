@@ -1,0 +1,42 @@
+
+@import url('../fonts/HalvarBreitschrift/halvarBreitschrift.css');
+@import url('../fonts/BrutalType/BrutalType.css');
+
+@import url('style_1920.css') screen and (min-width: 1366px);
+
+@import url('style_1366.css') screen and (max-width: 1366px) and (min-width: 641px);
+
+@import url('style_640.css') screen and (max-width: 640px) and (min-width: 361px);
+
+@import url('style_360.css') screen and (max-width: 360px);
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+body {
+    margin: 0px;
+}
+h1, h2, h3, h4, h5, h6, p, div {
+    -webkit-user-select: none; /* Для Safari */
+    -moz-user-select: none; /* Для Firefox */
+    -ms-user-select: none; /* Для Internet Explorer */
+    user-select: none;
+    cursor: auto;
+    margin: 0px;
+    padding: 0px;
+}
+
+ul, li {
+    margin: 0px;
+    padding: 0px;
+}
+li::marker {
+    content: '';
+}
+.hide {
+    display: none !important;
+    width: 0px !important;
+    height: 0px !important;
+}
