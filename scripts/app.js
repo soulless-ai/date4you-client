@@ -3,7 +3,7 @@ import config from './config.js';
 
 const token = localStorage.getItem('authenticate');
 
-const socket = new WebSocket('ws://' + config.serverDomain + ':' + config.serverPort);
+const socket = new WebSocket('wss://' + config.serverDomain);
 
 socket.addEventListener('open', function (event) {
     console.log('Connected to server');
