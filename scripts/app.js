@@ -24,6 +24,7 @@ socket.addEventListener('message', function (event) {
                     if (result.token) {
                         console.log("yes")
                     } else if (result.error === 'Invalid token') {
+                        console.log("yo")
                         new Page().getMainContent(socket);
                     }
                     break;
