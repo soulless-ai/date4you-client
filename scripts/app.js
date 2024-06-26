@@ -3,7 +3,7 @@ import config from './config.js';
 
 const token = localStorage.getItem('authenticate');
 
-const socket = new WebSocket('wss://' + config.serverDomain);
+const socket = new WebSocket('ws://' + config.serverDomain + ':' + config.serverPort);
 
 socket.addEventListener('open', function (event) {
     console.log('Connected to server');
@@ -24,7 +24,6 @@ socket.addEventListener('message', function (event) {
                     if (result.token) {
                         console.log("yes")
                     } else if (result.error === 'Invalid token') {
-                        console.log("yo")
                         new Page().getMainContent(socket);
                     }
                     break;

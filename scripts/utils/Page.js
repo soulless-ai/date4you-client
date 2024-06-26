@@ -37,7 +37,6 @@ export class Page {
     }
 
     getMainContent = (socket) => {
-        console.log("wtsapp")
         new Header().render();
         new Main().render();
         new Footer(socket).render();
