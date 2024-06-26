@@ -30,9 +30,6 @@ export class SignUp {
             "#exitButton": this.handleExit
         });
     };
-    onSubmitForm = async (event) => {
-        event.preventDefault();
-    }
     onSubmit = async (event) => {
         event.preventDefault();
         this.packet = {
@@ -86,19 +83,7 @@ export class SignUp {
         if (this.packet.code) {
             const result = await new UserController(this.socket).postComfirm(this.packet);
             if (result.success) {
-                document.querySelector('#code').classList.add('hide');
-                document.querySelector('#signUpForm').innerHTML = 
-                `
-                    <div class="code-sender-container">
-                        <input id="code" name="code" placeholder="code">
-                        <button type="submit" id="sendCodeButton">
-                            <img src="/assets/image/greater-than.png" alt="Greater than">
-                        </button>
-                    </div>
-                    <div id="errorMessage"><br></div>
-                `;
-                document.querySelector('#sendCodeButton').removeEventListener("click", this.onSubmit);
-                document.querySelector('#sendCodeButton').addEventListener("click", this.onSubmitCode);
+                this.renderThird();
             } else {
                 document.querySelector('#code').classList.add('errorMessageInput');
                 this.errorMessenger(`Проверьте, правильно ли вы указали код`);
@@ -109,9 +94,11 @@ export class SignUp {
         }
     }
 
-    getSecondPage = async () => {
-        new Page().hide(this.container);
-        return new Page(this.socket, this.container).render(
+    renderThird = async () => {
+        new Page().hide(
+            [this.container]
+        );
+        new Page(this.socket, this.container).render(
             `
                 <form id="signUpForm">
                     <input id="name" name="name" placeholder="name">
@@ -148,11 +135,12 @@ export class SignUp {
 
                     <input type="radio" id="both" name="dating" value="both" required>
                     <label for="both">Женщины/Мужчины</label>
+                    <div id="errorMessage"><br></div>
 
                     <button id="signUpButton" type="submit">Отправить</button>
                 </form>
             `, {
-            "#signUpForm": this.onSubmitSecond,
+            "#signUpForm": this.onSubmitForm,
             "#signUpButton": this.handleSignUpButtonSubmitSecond,
         });
     }
@@ -168,21 +156,36 @@ export class SignUp {
             zodiac: document.querySelector("#zodiac").value,
             dating: new Page().getSelectedRadioButtonValue('dating')
         }
+        if (this.packet.code) {
+            const result = await new UserController(this.socket).postComfirm(this.packet);
+            if (result.success) {
+                this.renderThird();
+            } else {
+                document.querySelector('#code').classList.add('errorMessageInput');
+                this.errorMessenger(`Проверьте, правильно ли вы указали код`);
+            }
+        } else {
+            document.querySelector('#code').classList.add('errorMessageInput');
+            this.errorMessenger(`Заполните данные`);
+        }
     }
 
+    onSubmitForm = async (event) => {
+        event.preventDefault();
+    }
     errorMessenger = async (data) => {
         document.querySelector('#errorMessage').innerHTML = data;
-    }
-    handleExit = async () => {
-        new Page().hide(
-            [this.container]
-        );
-        new Page().getMainContent(this.socket);
     }
     handleBack = async () => {
         new Page().hide(
             [this.container]
         );
         this.render();
+    }
+    handleExit = async () => {
+        new Page().hide(
+            [this.container]
+        );
+        new Page().getMainContent(this.socket);
     }
 }

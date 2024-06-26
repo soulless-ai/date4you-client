@@ -137,6 +137,7 @@ footer button {
     color: black;
     border: none;
     border-radius: 24px;
+    cursor: pointer;
 }
 
 #errorMessage {
