@@ -1,4 +1,521 @@
-body {
+header {
+    position: fixed;
+    width: 100vw;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+.header-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.header-container ul {
+    display: flex;
+    gap: 12px
+}
+.header-container ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+main {
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+}
+section {
+    height: 100%;
+    position: relative;
+}
+
+#main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#backButton, #exitButton {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    background-color: rgba(36, 74, 127, .08);
+    cursor: pointer;
+    transition: background-color .25s;
+    padding: 16px;
+}
+#backButton:active,
+#exitButton:active {
+    background-color: rgba(36, 74, 127, .1);
+}
+#backButton {
+    left: 0px;
+    right: auto;
+}
+#backButton img {
+    width: 22px;
+    height: 22px;
+}
+
+#signInForm, #signUpForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#signInForm label,
+#signUpForm label {
+    color: #999;
+}
+#signInForm input ,
+#signUpForm input ,
+#continue {
+    width: 100%;
+    height: 56px;
+    padding: 16px 24px;
+    border: 2px solid #800080;
+    border-radius: 24px;
+    box-shadow: none;
+}
+#signInForm input[type="radio"],
+#signUpForm input[type="radio"] {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #800080;
+    border-radius: 50%;
+    margin: 0px;
+    margin-left: 8px;
+    padding: 0px;
+    vertical-align: middle;
+    transition: border-color 0.3s ease;
+}
+#signInForm input[type="radio"]:checked,
+#signUpForm input[type="radio"]:checked {
+    background: radial-gradient(circle, rgba(128,0,128) 30%, rgba(128,0,128) 45%, rgba(255, 255, 255, 1) 45%, rgba(255, 255, 255, 1) 55%);
+}
+#signInForm button ,
+#signUpForm button {
+    width: 100%;
+    height: 56px;
+    padding: 16px 24px;
+    background-color: #800080;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: background-color .25s;
+}
+#signInForm button:active ,
+#signUpForm button:active {
+    background-color: #550055;
+}
+
+#sign-up-section h1 {
+    display: inline-block;
+    width: 100%;
+    margin-top: 60px;
+    padding-top: 14px;
+    border-top: 2px solid #800080;
+}
+#sign-up-section p {
+    margin-top: 8px;
+    margin-bottom: 34px;
+}
+#signUpForm input#email {
+    border-top: none;
+    border-left: none;
+}
+#signUpForm .code-input-container {
+    display: flex;
+    gap: 10px;
+}
+#signUpForm .code-input {
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    border: 2px solid #800080;
+    border-radius: 14px;
+    padding: 0px;
+    color: white;
+}
+#sign-up-section  .sign-up-section-footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+}
+#signUpForm.add-avatar-form h1 {
+    border-top: none;
+    text-align: center;
+    margin-top: 20px;
+}
+#signUpForm.add-avatar-form p {
+    text-align: center;
+}
+#signUpForm.add-avatar-form .avatar-container {
+    width: 100%;
+    margin-top: 60px;
+    padding-top: 14px;
+    border-top: 2px solid #800080;
+}
+#signUpForm .sign-up-section-footer-small {
+    background-color: transparent;
+    padding: 10px 20px;
+    width: max-content;
+    height: auto;
+    border-bottom: 1px solid;
+    color: black;
+}
+#signUpForm .input-sender-container {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    gap: 4px;
+}
+#signUpForm .input-sender-container input {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+#signUpForm .input-sender-container #sendCodeButton {
+    width: auto;
+    height: 100%;
+    right: 0px;
+    padding: 16px;
+    border-radius: 24px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+#signUpForm .input-sender-container #sendCodeButton img {
+    height: 100%;
+}
+#signUpForm .birth-gender-container {
+    display: flex;
+    width: 100%;
+    height: 76px;
+    gap: 12px;
+}
+#signUpForm .birth-gender-container section {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+#signUpForm .birth-gender-container label {
+    display: inline-block;
+    margin-bottom: 4px;
+    margin-left: 20px;
+}
+
+#signUpForm.sign-up-last-form {
+    display: flex;
+    position: absolute;
     width: 100%;
     height: 100%;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    justify-content: flex-start;
+    padding: 30px 0px;
+    gap: 24px;
+}
+
+.block-instagram input {
+    padding-left: 50px !important;
+}
+.block-instagram .block-instagram-label {
+    left: 50px;
+}
+.block-instagram .block-instagram-icon {
+    position: absolute;
+    top: 18px;
+    left: 24px;
+    padding-right: 4px;
+    border-right: solid 1px #800080;
+}
+textarea#about {
+    width: 100%;
+    height: 150px;
+    border: none;
+    resize: none;
+    padding: 6px;
+}
+.interests-checkbox-container {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    row-gap: 6px;
+}
+.interests-checkbox-container input {
+    width: 0px !important;
+    height: 0px !important;
+}
+.interests-checkbox-container label {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #800080;
+}
+.interests-checkbox-container input:checked + label {
+    background-color: #800080;
+    color: #fff;
+}
+.interests-checkbox-container div {
+    display: flex;
+    align-items: center;
+    width: max-content;
+}
+.interests-checkbox-container input + label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#signInForm {
+    gap: 24px;
+    height: 100%;
+}
+
+#welcomePage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #800080;
+    color: white;
+}
+#welcomePage p {
+    width: 80%;
+    text-align: center;
+}
+#continue {
+    position: absolute;
+    width: 90%;
+    background-color: #FFF;
+    border: none;
+    cursor: pointer;
+    bottom: 24px;
+}
+
+/* APP */
+.app {
+    position: relative;
+}
+
+.pages {
+    width: 100%;
+    height: 100%;
+}
+#app-news {
+    background-color: green;
+}
+#app-search {
+    background-color: red;
+}
+#app-messenger {
+    background-color: blue;
+}
+#app-profile {
+    background-color: yellow;
+}
+
+/* APP footer */
+#app-footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    display: flex;
+    justify-content: space-between;
+}
+#app-footer button {
+    width: 100%;
+    padding: 16px 4%;
+    background-color: #ffffff;
+    border: none;
+}
+#app-footer button.active {
+    border-top: 4px solid #800080;
+}
+
+/* MAIN footer */
+footer {
+    width: 100vw;
+    position: absolute;
+    bottom: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+footer button {
+    height: 56px;
+    padding: 16px 24px;
+    background-color: #800080;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: background-color .25s;
+}
+
+.block-for-fly-placeholder {
+    position: relative;
+    width: 100%;
+}
+.fly-placeholder {
+    position: absolute;
+    top: 19px;
+    left: 24px;
+    color: #999;
+    transition: all 0.2s;
+}
+.fly-placeholder.active {
+    top: -19px;
+    left: 20px;
+    color: #999;
+}
+.simulate-mouse-enter ~ .fly-placeholder {
+    top: -19px !important;
+    left: 20px !important;
+    color: #999 !important;
+}
+input:focus ~ .fly-placeholder, 
+input:hover ~ .fly-placeholder, 
+.fly-placeholder:hover, 
+.fly-placeholder:focus {
+    top: -19px;
+    left: 20px;
+}
+
+.selecter {
+    position: relative;
+    width: 100%;
+}
+.selecter .selected-option {
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+    border: 2px solid #800080;
+    padding: 16px 24px;
+    border-radius: 24px;
+    box-shadow: none;
+    transition: all 0.5s;
+}
+.selecter .options-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    background-color: #fff;
+    border: 2px solid #800080;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.selecter .options-list.open {
+    display: block;
+}
+.selecter .selected-option.open {
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+.selecter .options-list li {
+    cursor: pointer;
+    padding: 8px;
+    color: #999;
+    border-bottom: 1px solid #800080;
+}
+.selecter .options-list li:hover {
+    color: #000;
+    background-color: #f0f0f0;
+}
+
+fieldset {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0px;
+    border: 2px solid #800080;
+}
+fieldset legend {
+    color: #999;
+}
+fieldset label {
+    margin: 0px !important;
+    color: #000 !important;
+}
+fieldset div {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+fieldset div * {
+    cursor: pointer;
+}
+fieldset .fieldset-radio-container-line {
+    width: 1px !important;
+    height: 100%;
+    background-color: #800080;
+}
+
+.avatar-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.avatar-container input#avatarInput {
+    position: absolute;
+    border: none;
+    opacity: 0;
+    padding: 0px;
+    cursor: pointer;
+}
+.avatar-container .avatar-preview,
+.avatar-container input#avatarInput {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#errorMessage {
+    width: 100%;
+    color: red;
+    text-align: start;
+}
+.errorBackground {
+    background-color: red !important;
+}
+.errorBorder {
+    border-color: red !important;
 }

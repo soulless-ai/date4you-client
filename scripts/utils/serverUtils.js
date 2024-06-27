@@ -5,7 +5,7 @@ export function sendDataToServer(socket, message) {
         return new Promise((resolve, reject) => {
             socket.addEventListener('message', (event) => {
                 console.log('Response:', event.data);
-                resolve(event.data);
+                resolve(JSON.parse(event.data));
             });
 
             socket.addEventListener('error', (error) => {

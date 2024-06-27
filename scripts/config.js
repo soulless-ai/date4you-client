@@ -1,4 +1,4 @@
 export default {
-    serverDomain: 'date4you-server-vmlp.onrender.com', // date4you-server-vmlp.onrender.com
+    serverDomain: 'localhost', // date4you-server-vmlp.onrender.com
     serverPort: 10000,
 };

@@ -1,6 +1,7 @@
 import { Page } from "../../utils/Page.js";
 import { UserController } from '../../controllers/User.js';
-import { App } from "../app/App.js";
+import { Footer } from "../app/Footer.js";
+import { News } from "../app/list/News.js";
 
 export class SignUp {
     constructor(socket) {
@@ -75,7 +76,9 @@ export class SignUp {
                     <div id="errorMessage"><br></div>
                     <div class="sign-up-section-footer">
                         <button type="submit" id="sendCodeButton"> Продолжить </button>
-                        <button class="sign-up-section-footer-small">Политика конфиденциальности</button>
+                        <ul>
+                            <li>Политика конфиденциальности</li>
+                        </ul>
                     </div>
                 </form>
             `, {
@@ -117,32 +120,39 @@ export class SignUp {
                 <button id="exitButton">
                     <img src="/assets/image/svg/x.svg" alt="X It">
                 </button>
-                <form id="signUpForm" class="add-avatar-form">
-                    <div class="avatar-container">
-                        <input type="file" id="avatarInput" accept="image/*">
-                        <img class="avatar-preview" src="/assets/image/default.png" alt="Preview">
+                <form id="signUpForm">
+                    <h1>Начните украшать ваш профиль</h1>
+                    <p>Выберите фото для вашей аватарки, чтобы привысить процент возможных знакомств. <br>Приложения поддерживает общедоступные файлы изображений</p>
+                    <input type="file" id="avatarInput" accept="image/*">
+                    <div id="previewContainer">
+                        <img id="avatarPreview" src="" alt="Preview" style="display: none;">
                     </div>
-                    <h1>Начните украшение вашего <br>профиля</h1>
-                    <p>Выберите фото для вашей аватарки, чтобы привысить процент возможных знакомств. Приложения поддерживает общедоступные файлы изображений</p>
                     <div id="errorMessage"><br></div>
                     <div class="sign-up-section-footer">
-                        <button id="addPhoto">Добавить фото</button>
-                        <button type="submit" id="submit" class="sign-up-section-footer-small">Продолжить</button>
+                        <button type="submit" id="submit">Добавить фото</button>
+                        <button id="continue">Продолжить</button>
                     </div>
                 </form>
             `, {
             "#submit": this.onSubmitAvatar,
             "#backButton": this.handleBack,
             "#exitButton": this.handleExit,
-            "#addPhoto": this.handleAddPhoto
+            "#avatarInput": this.handleAvatarInput
         });
         new Page().addInputEventListeners();
-        document.getElementById('avatarInput').addEventListener('change', new Page().avatarPreview);
     };
-    handleAddPhoto = (event) => {
-        event.preventDefault();
-        document.getElementById('avatarInput').click();
-    }
+    handleAvatarInput = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const preview = document.getElementById('avatarPreview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    };
     onSubmitAvatar = async (event) => {
         event.preventDefault();
         const avatarInput = document.getElementById('avatarInput');
@@ -153,37 +163,18 @@ export class SignUp {
         this.packet.avatar = formData;
     
         console.log('Form submitted:', this.packet.avatar);
-        this.renderWelcomePage();
+        this.renderSecond();
     };
 
-    renderWelcomePage = async () => {
-        new Page().hide([this.container]);
-        new Page(this.socket, this.container).render(
-            `
-                <div id="welcomePage">
-                    <h1></h1>
-                    <p>
-                        Приветсвуем вас в нашем приложении.
-                        Уверены, тут каждый сможет найти себе необходимое
-                    </p>
-                    <button id="continue">Продолжить</button>
-                </div>
-            `, {
-            "#continue": this.onSubmitWelcome
-        });
-        new Page().addInputEventListeners();
-    }
-    onSubmitWelcome = async (event) => {
-        event.preventDefault();
-        this.renderInfoPage();
-    };
-
-    renderInfoPage = async () => {
+    renderSecond = async () => {
         new Page().hide(
             [this.container]
         );
         new Page(this.socket, this.container).render(
             `
+                <button id="exitButton">
+                    <img src="/assets/image/svg/x.svg" alt="X It">
+                </button>
                 <form id="signUpForm" class="sign-up-last-form">
                     <div class="block-for-fly-placeholder">
                         <input id="name" name="name" placeholder="" required>
@@ -244,6 +235,7 @@ export class SignUp {
                             <input type="checkbox" id="interest_travel" name="interests" value="travel">
                             <label for="interest_travel">Путешествия</label>
                         </div>
+                        <!-- Добавьте другие опции интересов -->
                         <div>
                             <input type="checkbox" id="interest_walk" name="interests" value="walk">
                             <label for="interest_walk">Гулять</label>
@@ -292,30 +284,32 @@ export class SignUp {
                         </div>
                     </fieldset>
                     <div id="errorMessage"><br></div>
-                    <button id="submit" type="submit">Отправить</button>
+                    <button id="signUpButton" type="submit">Отправить</button>
                 </form>
             `, {
-            "#submit": this.onSubmitInfo,
+            "#signUpButton": this.handleSignUpButtonSubmitSecond,
+            "#exitButton": this.handleExit,
         });
         new Page().addInputEventListeners();
     }
 
-    onSubmitInfo = async (event) => {
+    handleSignUpButtonSubmitSecond = async (event) => {
         event.preventDefault();
-        let errors = ["#submit"];
         this.packet.name = document.querySelector("#name").value;
         this.packet.lastname = document.querySelector("#lastname").value;
         this.packet.birthdate = document.querySelector("#selectedBirthdate").textContent;;
         this.packet.gender = new Page().getSelectedRadioButtonValue('gender');
         this.packet.nickname = document.querySelector("#nickname").value;
         this.packet.instagram = document.querySelector("#instagram").value;
-        this.packet.about = document.querySelector("textarea#about").value;
+        this.packet.about = document.querySelector("#about").value;
         this.packet.interests = Array.from(document.querySelectorAll("input[name='interests']:checked")).map(el => el.value);
         this.packet.zodiac = document.querySelector("#selectedZodiac").textContent;;
         this.packet.dating = new Page().getSelectedRadioButtonValue('dating');
 
+        console.log(this.packet)
         new Page().clearErrorStyles();
 
+        const errors = ["#signUpButton"];
         if (!this.packet.name) errors.push("#name");
         if (!this.packet.lastname) errors.push("#lastname");
         if (!this.packet.nickname) errors.push("#nickname");
@@ -324,17 +318,19 @@ export class SignUp {
         if (this.packet.interests.length === 0) errors.push("input[name='interests']");
         if (this.packet.zodiac === "Выберите знак зодиака") this.packet.zodiac = '';
 
-        if (errors.length > 1) {
+        if (errors.length > 0) {
             new Page().displayError(errors, "Заполните данные");
         } else {
             const result = await new UserController(this.socket).post(this.packet);
             if (result.success) {
+                console.log("yes")
                 new Page().hide(
                     [this.container]
                 );
-                new App(this.socket).render();
+                new News(this.socket).render();
+                new Footer(this.socket).render();
             } else {
-                new Page().displayError("#submit", "Проверьте, правильно ли вы указали данные");
+                new Page().displayError(signUpButton, "Проверьте, правильно ли вы указали данные");
             }
         }
     }

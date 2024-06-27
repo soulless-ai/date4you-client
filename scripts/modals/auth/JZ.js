@@ -1,6 +1,7 @@
 import { Page } from "../../utils/Page.js";
 import { UserController } from '../../controllers/User.js';
-import { App } from "../app/App.js";
+import { Footer } from "../app/Footer.js";
+import { News } from "../app/list/News.js";
 
 export class SignUp {
     constructor(socket) {
@@ -16,8 +17,6 @@ export class SignUp {
                 <button id="exitButton">
                     <img src="/assets/image/svg/x.svg" alt="X It">
                 </button>
-                <h1>Какой у вас <br>электронный адрес?</h1>
-                <p>Пожалуйста, укажите ваш почтовый адрес для подтверждения, <br>что вы не являетесь ботом и мы могли иметь с вами дальнейшую связь</p>
                 <form id="signUpForm">
                     <div class="input-sender-container">
                         <div class="block-for-fly-placeholder">
@@ -41,7 +40,7 @@ export class SignUp {
         this.packet.phone = document.querySelector("#email").value;
         if (this.packet.phone) {
             if (new UserController(this.socket).getComfirm(this.packet)) {
-                this.renderCodePage();
+                this.renderSecond();
             } else {
                 new Page().displayError([ "#email", "#sendCodeButton" ], "Проверьте, правильно ли вы указали email");
             }
@@ -49,7 +48,7 @@ export class SignUp {
             new Page().displayError([ "#email", "#sendCodeButton" ], "Заполните данные");
         }
     }
-    renderCodePage = async () => {
+    renderSecond = async () => {
         new Page().hide(
             [this.container]
         );
@@ -61,22 +60,17 @@ export class SignUp {
                 <button id="exitButton">
                     <img src="/assets/image/svg/x.svg" alt="X It">
                 </button>
-                <h1>Введите полученный код</h1>
-                <p>Ниже укажите отправленный на ваш почтовый адрес код подтверждения, если вы по каким-то причинам не получили его, вернитесь на изначальный экран регистрации</p>
                 <form id="signUpForm">
-                    <div class="code-input-container">
-                        <input type="text" maxlength="1" class="code-input" id="digit1">
-                        <input type="text" maxlength="1" class="code-input" id="digit2">
-                        <input type="text" maxlength="1" class="code-input" id="digit3">
-                        <input type="text" maxlength="1" class="code-input" id="digit4">
-                        <input type="text" maxlength="1" class="code-input" id="digit5">
-                        <input type="text" maxlength="1" class="code-input" id="digit6">
+                    <div class="input-sender-container">
+                        <div class="block-for-fly-placeholder">
+                            <input id="code" name="code" placeholder="" required>
+                            <label class="fly-placeholder" for="code">Код подтверждения:</label>
+                        </div>
+                        <button type="submit" id="sendCodeButton">
+                            <img src="/assets/image/greater-than.png" alt="Greater than">
+                        </button>
                     </div>
-                    <div id="errorMessage"><br></div>
-                    <div class="sign-up-section-footer">
-                        <button type="submit" id="sendCodeButton"> Продолжить </button>
-                        <button class="sign-up-section-footer-small">Политика конфиденциальности</button>
-                    </div>
+                    <div id="errorMessage">Код отправлен на ваш электронный адрес. Если вы не получили код подтверждения, попробуйте вернутся "назад" и повторить попытку</div>
                 </form>
             `, {
             "#sendCodeButton": this.onSubmitCode,
@@ -84,22 +78,14 @@ export class SignUp {
             "#exitButton": this.handleExit
         })
         new Page().addInputEventListeners();
-        new Page().setupCodeInputFields(
-            document.querySelectorAll('.code-input'),
-            document.getElementById('signUpForm'),
-            this.onSubmitCode);
     }
     onSubmitCode = async (event) => {
         event.preventDefault();
-        let code = "";
-        document.querySelectorAll('.code-input').forEach(input => {
-            code += input.value;
-        });
-        this.packet.code = code;
+        this.packet.code = document.querySelector("#code").value;
         if (this.packet.code) {
             const result = await new UserController(this.socket).postComfirm(this.packet);
             if (result.success) {
-                this.renderAvatarPage();
+                this.renderThird();
             } else {
                 new Page().displayError([ "#code", "#sendCodeButton" ], "Проверьте, правильно ли вы указали код");
             }
@@ -107,83 +93,16 @@ export class SignUp {
             new Page().displayError([ "#code", "#sendCodeButton" ], "Заполните данные");
         }
     }
-    renderAvatarPage = async () => {
-        new Page().hide([this.container]);
-        new Page(this.socket, this.container).render(
-            `
-                <button id="backButton">
-                    <img src="/assets/image/less-than.png" alt="Less than">
-                </button>
-                <button id="exitButton">
-                    <img src="/assets/image/svg/x.svg" alt="X It">
-                </button>
-                <form id="signUpForm" class="add-avatar-form">
-                    <div class="avatar-container">
-                        <input type="file" id="avatarInput" accept="image/*">
-                        <img class="avatar-preview" src="/assets/image/default.png" alt="Preview">
-                    </div>
-                    <h1>Начните украшение вашего <br>профиля</h1>
-                    <p>Выберите фото для вашей аватарки, чтобы привысить процент возможных знакомств. Приложения поддерживает общедоступные файлы изображений</p>
-                    <div id="errorMessage"><br></div>
-                    <div class="sign-up-section-footer">
-                        <button id="addPhoto">Добавить фото</button>
-                        <button type="submit" id="submit" class="sign-up-section-footer-small">Продолжить</button>
-                    </div>
-                </form>
-            `, {
-            "#submit": this.onSubmitAvatar,
-            "#backButton": this.handleBack,
-            "#exitButton": this.handleExit,
-            "#addPhoto": this.handleAddPhoto
-        });
-        new Page().addInputEventListeners();
-        document.getElementById('avatarInput').addEventListener('change', new Page().avatarPreview);
-    };
-    handleAddPhoto = (event) => {
-        event.preventDefault();
-        document.getElementById('avatarInput').click();
-    }
-    onSubmitAvatar = async (event) => {
-        event.preventDefault();
-        const avatarInput = document.getElementById('avatarInput');
-        const formData = new FormData(document.getElementById('signUpForm'));
-        if (avatarInput.files.length > 0) formData.append('avatar', avatarInput.files[0]);
-        else formData.append('avatar', null);  // Или formData.append('avatar', '');
-    
-        this.packet.avatar = formData;
-    
-        console.log('Form submitted:', this.packet.avatar);
-        this.renderWelcomePage();
-    };
 
-    renderWelcomePage = async () => {
-        new Page().hide([this.container]);
-        new Page(this.socket, this.container).render(
-            `
-                <div id="welcomePage">
-                    <h1></h1>
-                    <p>
-                        Приветсвуем вас в нашем приложении.
-                        Уверены, тут каждый сможет найти себе необходимое
-                    </p>
-                    <button id="continue">Продолжить</button>
-                </div>
-            `, {
-            "#continue": this.onSubmitWelcome
-        });
-        new Page().addInputEventListeners();
-    }
-    onSubmitWelcome = async (event) => {
-        event.preventDefault();
-        this.renderInfoPage();
-    };
-
-    renderInfoPage = async () => {
+    renderThird = async () => {
         new Page().hide(
             [this.container]
         );
         new Page(this.socket, this.container).render(
             `
+                <button id="exitButton">
+                    <img src="/assets/image/svg/x.svg" alt="X It">
+                </button>
                 <form id="signUpForm" class="sign-up-last-form">
                     <div class="block-for-fly-placeholder">
                         <input id="name" name="name" placeholder="" required>
@@ -244,6 +163,7 @@ export class SignUp {
                             <input type="checkbox" id="interest_travel" name="interests" value="travel">
                             <label for="interest_travel">Путешествия</label>
                         </div>
+                        <!-- Добавьте другие опции интересов -->
                         <div>
                             <input type="checkbox" id="interest_walk" name="interests" value="walk">
                             <label for="interest_walk">Гулять</label>
@@ -292,30 +212,32 @@ export class SignUp {
                         </div>
                     </fieldset>
                     <div id="errorMessage"><br></div>
-                    <button id="submit" type="submit">Отправить</button>
+                    <button id="signUpButton" type="submit">Отправить</button>
                 </form>
             `, {
-            "#submit": this.onSubmitInfo,
+            "#signUpButton": this.handleSignUpButtonSubmitSecond,
+            "#exitButton": this.handleExit,
         });
         new Page().addInputEventListeners();
     }
 
-    onSubmitInfo = async (event) => {
+    handleSignUpButtonSubmitSecond = async (event) => {
         event.preventDefault();
-        let errors = ["#submit"];
         this.packet.name = document.querySelector("#name").value;
         this.packet.lastname = document.querySelector("#lastname").value;
         this.packet.birthdate = document.querySelector("#selectedBirthdate").textContent;;
         this.packet.gender = new Page().getSelectedRadioButtonValue('gender');
         this.packet.nickname = document.querySelector("#nickname").value;
         this.packet.instagram = document.querySelector("#instagram").value;
-        this.packet.about = document.querySelector("textarea#about").value;
+        this.packet.about = document.querySelector("#about").value;
         this.packet.interests = Array.from(document.querySelectorAll("input[name='interests']:checked")).map(el => el.value);
         this.packet.zodiac = document.querySelector("#selectedZodiac").textContent;;
         this.packet.dating = new Page().getSelectedRadioButtonValue('dating');
 
+        console.log(this.packet)
         new Page().clearErrorStyles();
 
+        const errors = ["#signUpButton"];
         if (!this.packet.name) errors.push("#name");
         if (!this.packet.lastname) errors.push("#lastname");
         if (!this.packet.nickname) errors.push("#nickname");
@@ -324,17 +246,19 @@ export class SignUp {
         if (this.packet.interests.length === 0) errors.push("input[name='interests']");
         if (this.packet.zodiac === "Выберите знак зодиака") this.packet.zodiac = '';
 
-        if (errors.length > 1) {
+        if (errors.length > 0) {
             new Page().displayError(errors, "Заполните данные");
         } else {
             const result = await new UserController(this.socket).post(this.packet);
             if (result.success) {
+                console.log("yes")
                 new Page().hide(
                     [this.container]
                 );
-                new App(this.socket).render();
+                new News(this.socket).render();
+                new Footer(this.socket).render();
             } else {
-                new Page().displayError("#submit", "Проверьте, правильно ли вы указали данные");
+                new Page().displayError(signUpButton, "Проверьте, правильно ли вы указали данные");
             }
         }
     }

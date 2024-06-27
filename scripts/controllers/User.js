@@ -4,13 +4,13 @@ export class UserController {
     constructor(socket) {
         this.socket = socket;
     }
-    get = (data) => {
+    login = (data) => {
         try {
             return sendDataToServer(
-                this.socket, 
+                this.socket,
                 {
                     className: 'user',
-                    type: 'get',
+                    type: 'login',
                     data: data
                 }
             )
@@ -25,6 +25,20 @@ export class UserController {
                 {
                     className: 'user',
                     type: 'post',
+                    data: data
+                }
+            )
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    get = (data) => {
+        try {
+            return sendDataToServer(
+                this.socket, 
+                {
+                    className: 'user',
+                    type: 'get',
                     data: data
                 }
             )

@@ -35,6 +35,15 @@ ul, li {
 li::marker {
     content: '';
 }
+
+input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none; /* Убрать обводку при фокусе */
+    box-shadow: none; /* Убрать тень при фокусе */
+}
+
 .hide {
     display: none !important;
     width: 0px !important;
